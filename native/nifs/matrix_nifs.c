@@ -1266,7 +1266,7 @@ static ErlNifFunc nif_functions[] = {
   {"argmax",               1, argmax,               0},
   {"column_to_list",       2, column_to_list,       0},
   {"concat_columns",       2, concat_columns,       0},
-  {"power",                2, divide_scalar,        0},
+  {"power",                2, power,                0},
   {"divide",               2, divide,               0},
   {"divide_scalar",        2, divide_scalar,        0},
   {"divide_by_scalar",     2, divide_by_scalar,     0},
