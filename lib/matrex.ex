@@ -583,7 +583,6 @@ defmodule Matrex do
     :log,
     :log2,
     :sqrt,
-    :power,
     :cbrt,
     :ceil,
     :floor,
