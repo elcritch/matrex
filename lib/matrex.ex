@@ -1664,6 +1664,22 @@ defmodule Matrex do
     new_matrix_from_function(size, rows, columns, function, initial)
   end
 
+  @doc """
+  Creates new 1-column matrix (aka vector) from the given list.
+
+  ## Examples
+
+      iex> [1,2,3] |> Matrex.from_list()
+      #Matrex[1×3]
+      ┌                         ┐
+      │     1.0     2.0     3.0 │
+      └                         ┘
+
+  """
+  def from_list(lst) when is_list(lst) do
+    new([lst])
+  end
+
   @spec float_to_binary(element | :nan | :inf | :neg_inf) :: binary
   defp float_to_binary(val) when is_number(val), do: <<val::float-little-32>>
   defp float_to_binary(:nan), do: @not_a_number
