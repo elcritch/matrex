@@ -18,13 +18,13 @@ defmodule Matrex.Algorithms.LinearRegression do
   @spec fit(Common.vector(), Common.vector()) :: {float, float}
 
   def fit(
-        matrex_data(_rows1, columns1, _data1, first),
-        matrex_data(rows2, _columns2, _data2, second)
+        matrex_data(rows1, columns1, _data1, _x),
+        matrex_data(rows2, columns2, _data2, _y)
       ) when rows1 != rows2 and columns1 != columns2, do: raise %ArgumentError{message: "mismatched sizes"}
 
   def fit(
-        matrex_data(_rows1, columns1, _data1, first),
-        matrex_data(rows2, _columns2, _data2, second)
+        matrex_data(rows1, columns1, _data1, x),
+        matrex_data(rows2, columns2, _data2, y)
       ) when rows1 == rows2 and columns1 == columns2 do
 
     x_mean = mean(x.items)

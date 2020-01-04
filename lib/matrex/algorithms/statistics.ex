@@ -11,7 +11,7 @@ defmodule Matrex.Algorithms.Statistics do
   @spec mean(Common.vector()) :: Common.maybe_float()
 
   def mean(x = %Matrex{}) do
-    sum(x) / Enum.count(x.items)
+    Matrex.sum(x) / Enum.count(x.items)
   end
 
   def mean(xs) do
@@ -89,7 +89,7 @@ defmodule Matrex.Algorithms.Statistics do
       do: raise %ArgumentError{message: "incorrect sizes"}
 
   def variance(x = %Matrex{}) do
-    sum_powered_deviations(x, 2) / (Enum.count(x.items) - 1)
+    powered_deviations(x, 2) / (Enum.count(x.items) - 1)
   end
 
   def variance(xs) do
@@ -143,7 +143,7 @@ defmodule Matrex.Algorithms.Statistics do
   """
   @spec moment(Common.vector(), pos_integer) :: Common.maybe_float()
   def moment(_, 1), do: 0.0
-  def moment(x = %Matrex{}, n), do: sum_powered_deviations(x, n) / Enum.count(x.items)
+  def moment(x = %Matrex{}, n), do: powered_deviations(x, n) / Enum.count(x.items)
 
   def moment(xs, n) do
     x = Matrex.new(xs)
@@ -265,16 +265,16 @@ defmodule Matrex.Algorithms.Statistics do
           Common.maybe_float()
 
   def weighted_covariance(
-        matrex_data(rows1, columns1, _data1, _first),
-        matrex_data(rows2, columns2, _data2, _second),
-        matrex_data(rows3, columns3, _data3, _third)
+        matrex_data(rows1, _columns1, _data1, _first),
+        matrex_data(rows2, _columns2, _data2, _second),
+        matrex_data(rows3, _columns3, _data3, _third)
       ) when rows1 != rows2 or rows1 != rows3,
       do: raise %ArgumentError{message: "incorrect sizes"}
 
   def weighted_covariance(x = %Matrex{}, y = %Matrex{}, w = %Matrex{}) do
     weighted_mean1 = weighted_mean(x, w)
     weighted_mean2 = weighted_mean(y, w)
-    sum(w * (x - weighted_mean1) * (y - weighted_mean2)) / sum(w)
+    Matrex.sum(w * (x - weighted_mean1) * (y - weighted_mean2)) / Matrex.sum(w)
   end
 
   def weighted_covariance(xs, ys, weights) do
@@ -289,11 +289,11 @@ defmodule Matrex.Algorithms.Statistics do
   """
   @spec weighted_mean(Common.vector(), Common.vector()) :: Common.maybe_float()
   def weighted_mean(
-        matrex_data(rows1, columns1, _data1, _first),
-        matrex_data(rows2, columns2, _data2, _second)
+        matrex_data(rows1, _columns1, _data1, _first),
+        matrex_data(rows2, _columns2, _data2, _second)
       ) when rows1 != rows2,
       do: raise %ArgumentError{message: "incorrect sizes"}
-  def weighted_mean(x = %Matrex{}, w = %Matrex{}), do: sum(x * w) / sum(w)
+  def weighted_mean(x = %Matrex{}, w = %Matrex{}), do: Matrex.sum(x * w) / Matrex.sum(w)
 
   def weighted_mean(xs, weights) do
     x = Matrex.new(xs)
@@ -301,15 +301,15 @@ defmodule Matrex.Algorithms.Statistics do
     weighted_mean(x, w)
   end
 
-  defp sum_powered_deviations(x, n) do
+  defp powered_deviations(x, n) do
     x_mean = mean(x)
-    sum(pow(x - x_mean, n))
+    Matrex.sum(Matrex.power(x - x_mean, n))
   end
 
   defp do_covariance(x, y, divisor) do
     mean_x = mean(x)
     mean_y = mean(y)
-    sum((x - mean_x) * (y - mean_y)) / divisor
+    Matrex.sum((x - mean_x) * (y - mean_y)) / divisor
   end
 
   defp do_quantile([head | _], _h, hf) when hf < 1, do: head
