@@ -45,6 +45,8 @@ defmodule Matrex.MixProject do
       {:dialyxir, "0.5.0", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false},
       {:excoveralls, github: "parroty/excoveralls", only: :test},
+      {:excheck, "~> 0.6", only: :test},
+      {:triq, "~> 1.2", only: [:dev, :test]},
       {:ex_unit_notifier, "~> 0.1", only: :test},
       {:elixir_make, "~> 0.4", runtime: false},
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},

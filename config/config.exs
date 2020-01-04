@@ -7,3 +7,5 @@ if Mix.env() == :dev do
       ".c"
     ]
 end
+
+config :excheck, :number_iterations, 200
