@@ -1,11 +1,13 @@
 use Mix.Config
 
-if Mix.env() == :dev do
-  config :mix_test_watch,
-    clear: true,
-    extra_extensions: [
-      ".c"
-    ]
-end
+case Mix.env() do
+  :dev ->
+    config :mix_test_watch,
+      clear: true,
+      extra_extensions: [
+        ".c"
+      ]
 
-config :excheck, :number_iterations, 200
+  :test ->
+    config :excheck, :number_iterations, 200
+end

@@ -26,17 +26,12 @@ defmodule Matrex.StatisticsTest do
 
   alias Matrex.Algorithms.Statistics
 
-  test "median is nil when list is empty" do
-    IO.puts "info"
-    assert false
-    refute Statistics.median([])
-  end
 
   test "median is the middle value of a sorted list" do
     numbers = [ Matrex.random(4, 1), Matrex.random(10, 1), ]
 
     for xs <- numbers do
-      xs = Enum.uniq(xs)
+      xs = Enum.uniq(xs) |> Matrex.new()
       median = Statistics.median(xs)
       {first, second} = xs |> Enum.sort() |> Enum.split_while(fn x -> x <= median end)
       length(first) == length(second) or length(first) - 1 == length(second)
@@ -51,9 +46,6 @@ defmodule Matrex.StatisticsTest do
     end
   end
 
-  test "mode is nil when list is empty" do
-    refute Statistics.mode([])
-  end
 
   test "mode is nil if no value is repeated" do
     numbers = [ Matrex.random(4, 1), Matrex.random(10, 1) ]
@@ -93,9 +85,6 @@ defmodule Matrex.StatisticsTest do
     end
   end
 
-  test "range is nil when list is empty" do
-    refute Statistics.range([])
-  end
 
   # property "range is the difference between the largest and smallest values" do
   #   for_all xs in non_empty(list(number())) do
@@ -104,9 +93,6 @@ defmodule Matrex.StatisticsTest do
   #   end
   # end
 
-  test "variance is nil when list is empty" do
-    refute Statistics.variance([])
-  end
 
   test "variance is nil when list has only one element" do
     refute Statistics.variance([42])
@@ -119,9 +105,6 @@ defmodule Matrex.StatisticsTest do
   #   end
   # end
 
-  test "population variance is nil when list is empty" do
-    refute Statistics.population_variance([])
-  end
 
   # property "population variance is the square of population standard deviation" do
   #   for_all xs in such_that(xxs in non_empty(list(number())) when length(xxs) > 1) do
@@ -130,9 +113,6 @@ defmodule Matrex.StatisticsTest do
   #   end
   # end
 
-  test "std dev is nil when list is empty" do
-    refute Statistics.std_dev([])
-  end
 
   test "std dev is nil when list has only one element" do
     refute Statistics.std_dev([42])
@@ -155,17 +135,10 @@ defmodule Matrex.StatisticsTest do
     )
   end
 
-  test "population std dev is nil when list is empty" do
-    refute Statistics.population_std_dev([])
-  end
-
   test "moment for a normal list (for coverage)" do
     assert Statistics.moment([1, 2, 3], 10) == 0.6666666666666666
   end
 
-  test "kurtosis is nil when list is empty" do
-    refute Statistics.kurtosis([])
-  end
 
   test "kurtosis is correct for specific datasets" do
     dataset1 = DataHelper.read("Lew")
@@ -184,9 +157,6 @@ defmodule Matrex.StatisticsTest do
     )
   end
 
-  test "skewness is nil when list is empty" do
-    refute Statistics.skewness([])
-  end
 
   test "skewness is correct for specific datasets" do
     dataset1 = DataHelper.read("Lew")
@@ -205,10 +175,6 @@ defmodule Matrex.StatisticsTest do
     )
   end
 
-  test "covariance is nil when any list is empty" do
-    refute Statistics.covariance([], [1, 2])
-    refute Statistics.covariance([1, 2], [])
-  end
 
   test "covariance is nil when any list has only one element" do
     refute Statistics.covariance([1], [2, 3])
@@ -237,11 +203,6 @@ defmodule Matrex.StatisticsTest do
   #   end
   # end
 
-  test "population covariance is nil when any list is empty" do
-    refute Statistics.population_covariance([], [1, 2])
-    refute Statistics.population_covariance([1, 2], [])
-  end
-
   test "population covariance is nil when the list lengths do not match" do
     refute Statistics.population_covariance([1, 2], [3, 4, 5])
     refute Statistics.population_covariance([1, 2, 3], [4, 5])
@@ -268,9 +229,6 @@ defmodule Matrex.StatisticsTest do
   #   end
   # end
 
-  test "quantile is nil when list is empty" do
-    refute Statistics.quantile([], 0.5)
-  end
 
   test "quantile is nil when tau is invalid" do
     refute Statistics.quantile([1, 2, 3], -0.1)
@@ -305,9 +263,6 @@ defmodule Matrex.StatisticsTest do
     end)
   end
 
-  test "percentile is nil when list is empty" do
-    refute Statistics.percentile([], 50)
-  end
 
   test "percentile is nil when p is invalid" do
     refute Statistics.percentile([1, 2, 3], -1)
@@ -330,10 +285,6 @@ defmodule Matrex.StatisticsTest do
   #   end
   # end
 
-  test "weighted mean is nil when any list is empty" do
-    refute Statistics.weighted_mean([], [1, 2])
-    refute Statistics.weighted_mean([1, 2], [])
-  end
 
   test "weighted mean is nil when the list lengths do not match" do
     refute Statistics.weighted_mean([1, 2], [3, 4, 5])
