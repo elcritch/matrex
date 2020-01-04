@@ -583,6 +583,7 @@ defmodule Matrex do
     :log,
     :log2,
     :sqrt,
+    :power,
     :cbrt,
     :ceil,
     :floor,
@@ -2374,6 +2375,28 @@ defmodule Matrex do
   """
   @spec square(matrex) :: matrex
   def square(%Matrex{data: matrix}), do: %Matrex{data: Matrex.NIFs.multiply(matrix, matrix)}
+
+  @doc """
+  Produces element-wise pow matrix. NIF through `power/2`.
+
+  ## Example
+
+      iex> m = Matrex.new("1 2 3; 4 5 6")
+      #Matrex[2×3]
+      ┌                         ┐
+      │     1.0     2.0     3.0 │
+      │     4.0     5.0     6.0 │
+      └                         ┘
+      iex> Matrex.power(m, 2)
+      #Matrex[2×3]
+      ┌                         ┐
+      │     1.0     4.0     9.0 │
+      │    16.0    25.0    36.0 │
+      └                         ┘
+
+  """
+  @spec power(matrex, number) :: matrex
+  def power(%Matrex{data: matrix}, exponent), do: %Matrex{data: Matrex.NIFs.power(exponent, matrix)}
 
   @doc """
   Returns submatrix for a given matrix. NIF.
