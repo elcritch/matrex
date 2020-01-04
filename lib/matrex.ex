@@ -2387,7 +2387,7 @@ defmodule Matrex do
       │     1.0     2.0     3.0 │
       │     4.0     5.0     6.0 │
       └                         ┘
-      iex> Matrex.power(m, 2)
+      iex> Matrex.pow(m, 2)
       #Matrex[2×3]
       ┌                         ┐
       │     1.0     4.0     9.0 │
@@ -2395,8 +2395,8 @@ defmodule Matrex do
       └                         ┘
 
   """
-  @spec power(matrex, number) :: matrex
-  def power(%Matrex{data: matrix}, exponent), do: %Matrex{data: Matrex.NIFs.power(exponent, matrix)}
+  @spec pow(matrex, number) :: matrex
+  def pow(%Matrex{data: matrix}, exponent), do: %Matrex{data: Matrex.NIFs.power(exponent, matrix)}
 
   @doc """
   Returns submatrix for a given matrix. NIF.

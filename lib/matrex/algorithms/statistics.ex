@@ -303,7 +303,7 @@ defmodule Matrex.Algorithms.Statistics do
 
   defp powered_deviations(x, n) do
     x_mean = mean(x)
-    Matrex.sum(Matrex.power(x - x_mean, n))
+    Matrex.sum(Matrex.pow(x - x_mean, n))
   end
 
   defp do_covariance(x, y, divisor) do
