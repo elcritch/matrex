@@ -298,31 +298,6 @@ defmodule Matrex do
 
   @behaviour Access
 
-  defmacrop matrex_data(rows, columns, body) do
-    quote do
-      %Matrex{
-        data: <<
-          unquote(rows)::unsigned-integer-little-32,
-          unquote(columns)::unsigned-integer-little-32,
-          unquote(body)::binary
-        >>
-      }
-    end
-  end
-
-  defmacrop matrex_data(rows, columns, body, data) do
-    quote do
-      %Matrex{
-        data:
-          <<
-            unquote(rows)::unsigned-integer-little-32,
-            unquote(columns)::unsigned-integer-little-32,
-            unquote(body)::binary
-          >> = unquote(data)
-      }
-    end
-  end
-
   @impl Access
   def fetch(matrex, key)
 
@@ -416,17 +391,7 @@ defmodule Matrex do
     # Matrix element size in bytes
     @element_size 4
 
-    defmacrop matrex_data(rows, columns, data) do
-      quote do
-        %Matrex{
-          data: <<
-            unquote(rows)::unsigned-integer-little-32,
-            unquote(columns)::unsigned-integer-little-32,
-            unquote(data)::binary
-          >>
-        }
-      end
-    end
+    import Matrex.Guards
 
     @doc false
     def count(matrex_data(rows, cols, _data)), do: {:ok, rows * cols}
