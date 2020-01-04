@@ -20,7 +20,7 @@ defmodule ListHelper do
 end
 
 defmodule Matrex.StatisticsTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   # use ExCheck
   import ListHelper
 
@@ -31,7 +31,7 @@ defmodule Matrex.StatisticsTest do
     numbers = [ Matrex.random(4, 1), Matrex.random(10, 1), ]
 
     for xs <- numbers do
-      xs = Enum.uniq(xs) |> Matrex.new()
+      xs = Enum.uniq(xs) |> Matrex.from_list()
       median = Statistics.median(xs)
       {first, second} = xs |> Enum.sort() |> Enum.split_while(fn x -> x <= median end)
       length(first) == length(second) or length(first) - 1 == length(second)
@@ -42,7 +42,7 @@ defmodule Matrex.StatisticsTest do
     numbers = [ Matrex.random(4, 1), Matrex.random(10, 1), ]
 
     for xs <- numbers do
-      Statistics.median(xs) |> between?(Enum.min(xs), Enum.max(xs))
+      Statistics.median(xs) |> between?(Matrex.min(xs), Matrex.max(xs))
     end
   end
 
@@ -50,7 +50,7 @@ defmodule Matrex.StatisticsTest do
   test "mode is nil if no value is repeated" do
     numbers = [ Matrex.random(4, 1), Matrex.random(10, 1) ]
     for xs <- numbers do
-      xs |> Enum.uniq() |> Statistics.mode() == nil
+      xs |> Enum.uniq() |> Matrex.new() |> Statistics.mode() == nil
     end
   end
 
@@ -95,7 +95,7 @@ defmodule Matrex.StatisticsTest do
 
 
   test "variance is nil when list has only one element" do
-    refute Statistics.variance([42])
+    refute Statistics.variance([42] |> Matrex.from_list)
   end
 
   # property "variance is the square of standard deviation" do
