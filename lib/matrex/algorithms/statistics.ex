@@ -8,7 +8,7 @@ defmodule Matrex.Algorithms.Statistics do
   @doc """
   The average of a list of numbers.
   """
-  @spec mean(Common.vector()) :: Common.maybe_float()
+  @spec mean(matrex()()) :: Common.maybe_float()
 
   def mean(x = %Matrex{}) do
     Matrex.sum(x) / Enum.count(x.items)
@@ -22,10 +22,10 @@ defmodule Matrex.Algorithms.Statistics do
   @doc """
   The middle value in a list of numbers.
   """
-  @spec median(Common.vector()) :: Common.maybe_float()
+  @spec median(matrex()()) :: Common.maybe_float()
 
   def median(x = %Matrex{}) do
-    middle_index = round(length(x.items) / 2) - 1
+    middle_index = round(length(x) / 2) - 1
     x.items |> Enum.sort() |> Enum.at(middle_index)
   end
 
@@ -37,7 +37,7 @@ defmodule Matrex.Algorithms.Statistics do
   @doc """
   The most frequent value(s) in a list.
   """
-  @spec mode(Common.vector()) :: Common.maybe_vector()
+  @spec mode(matrex()()) :: Common.maybe_vector()
 
   def mode(x = %Matrex{}) do
     counts =
@@ -66,7 +66,7 @@ defmodule Matrex.Algorithms.Statistics do
   @doc """
   The difference between the largest and smallest values in a list.
   """
-  @spec range(Common.vector()) :: Common.maybe_float()
+  @spec range(matrex()()) :: Common.maybe_float()
 
   def range(x = %Matrex{}) do
     {minimum, maximum} = Enum.min_max(x.items)
@@ -82,7 +82,7 @@ defmodule Matrex.Algorithms.Statistics do
   The unbiased population variance from a sample.
   It measures how far the vector is spread out from the mean.
   """
-  @spec variance(Common.vector()) :: Common.maybe_float()
+  @spec variance(matrex()()) :: Common.maybe_float()
   def variance(
         matrex_data(rows1, columns1, _data1, _first)
       ) when rows1 <= 1 or columns1 <= 1,
@@ -101,7 +101,7 @@ defmodule Matrex.Algorithms.Statistics do
   The variance for a full population.
   It measures how far the vector is spread out from the mean.
   """
-  @spec population_variance(Common.vector()) :: Common.maybe_float()
+  @spec population_variance(matrex()()) :: Common.maybe_float()
   def population_variance(x = %Matrex{}), do: moment(x, 2)
 
   def population_variance(xs) do
@@ -113,7 +113,7 @@ defmodule Matrex.Algorithms.Statistics do
   The unbiased standard deviation from a sample.
   It measures the amount of variation of the vector.
   """
-  @spec std_dev(Common.vector()) :: Common.maybe_float()
+  @spec std_dev(matrex()()) :: Common.maybe_float()
   def std_dev(
         matrex_data(rows1, columns1, _data1, _first)
       ) when rows1 <= 1 or columns1 <= 1,
@@ -129,7 +129,7 @@ defmodule Matrex.Algorithms.Statistics do
   The standard deviation for a full population.
   It measures the amount of variation of the vector.
   """
-  @spec population_std_dev(Common.vector()) :: Common.maybe_float()
+  @spec population_std_dev(matrex()()) :: Common.maybe_float()
   def population_std_dev(x = %Matrex{}), do: :math.sqrt(population_variance(x))
 
   def population_std_dev(xs) do
@@ -141,7 +141,7 @@ defmodule Matrex.Algorithms.Statistics do
   The nth moment about the mean for a sample.
   Used to calculate skewness and kurtosis.
   """
-  @spec moment(Common.vector(), pos_integer) :: Common.maybe_float()
+  @spec moment(matrex()(), pos_integer) :: Common.maybe_float()
   def moment(_, 1), do: 0.0
   def moment(x = %Matrex{}, n), do: powered_deviations(x, n) / Enum.count(x.items)
 
@@ -155,7 +155,7 @@ defmodule Matrex.Algorithms.Statistics do
   It defines the extent to which a distribution differs from a normal distribution.
   Like skewness, it describes the shape of a probability distribution.
   """
-  @spec kurtosis(Common.vector()) :: Common.maybe_float()
+  @spec kurtosis(matrex()()) :: Common.maybe_float()
   def kurtosis(x = %Matrex{}), do: moment(x, 4) / :math.pow(population_variance(x), 2) - 3
 
   def kurtosis(xs) do
@@ -168,7 +168,7 @@ defmodule Matrex.Algorithms.Statistics do
   It defines the extent to which a distribution differs from a normal distribution.
   Like kurtosis, it describes the shape of a probability distribution.
   """
-  @spec skewness(Common.vector()) :: Common.maybe_float()
+  @spec skewness(matrex()()) :: Common.maybe_float()
   def skewness(x = %Matrex{}), do: moment(x, 3) / :math.pow(population_variance(x), 1.5)
 
   def skewness(xs) do
@@ -180,7 +180,7 @@ defmodule Matrex.Algorithms.Statistics do
   Calculates the unbiased covariance from two sample vectors.
   It is a measure of how much the two vectors change together.
   """
-  @spec covariance(Common.vector(), Common.vector()) :: Common.maybe_float()
+  @spec covariance(matrex()(), matrex()()) :: Common.maybe_float()
   def covariance(
         matrex_data(rows1, columns1, _data1, _first)
       ) when rows1 <= 1 or columns1 <= 1,
@@ -205,7 +205,7 @@ defmodule Matrex.Algorithms.Statistics do
   Calculates the population covariance from two full population vectors.
   It is a measure of how much the two vectors change together.
   """
-  @spec population_covariance(Common.vector(), Common.vector()) :: Common.maybe_float()
+  @spec population_covariance(matrex()(), matrex()()) :: Common.maybe_float()
 
   def population_covariance(
         matrex_data(rows1, columns1, _data1, _first),
@@ -229,7 +229,7 @@ defmodule Matrex.Algorithms.Statistics do
   Approximately median-unbiased irrespective of the sample distribution.
   This implements the R-8 type of https://en.wikipedia.org/wiki/Quantile.
   """
-  @spec quantile(Common.vector(), number) :: Common.maybe_float()
+  @spec quantile(matrex()(), number) :: Common.maybe_float()
   def quantile(_xs, tau) when tau < 0 or tau > 1, do: nil
 
   def quantile(x = %Matrex{}, tau) do
@@ -249,7 +249,7 @@ defmodule Matrex.Algorithms.Statistics do
   Approximately median-unbiased irrespective of the sample distribution.
   This implements the R-8 type of https://en.wikipedia.org/wiki/Quantile.
   """
-  @spec percentile(Common.vector(), integer) :: Common.maybe_float()
+  @spec percentile(matrex()(), integer) :: Common.maybe_float()
   def percentile(_xs, p) when p < 0 or p > 100, do: nil
   def percentile(x = %Matrex{}, p), do: quantile(x, p / 100)
 
@@ -261,7 +261,7 @@ defmodule Matrex.Algorithms.Statistics do
   @doc """
   Calculates the weighted measure of how much two vectors change together.
   """
-  @spec weighted_covariance(Common.vector(), Common.vector(), Common.vector()) ::
+  @spec weighted_covariance(matrex()(), matrex()(), matrex()()) ::
           Common.maybe_float()
 
   def weighted_covariance(
@@ -287,7 +287,7 @@ defmodule Matrex.Algorithms.Statistics do
   @doc """
   Calculates the weighted average of a list of numbers.
   """
-  @spec weighted_mean(Common.vector(), Common.vector()) :: Common.maybe_float()
+  @spec weighted_mean(matrex()(), matrex()()) :: Common.maybe_float()
   def weighted_mean(
         matrex_data(rows1, _columns1, _data1, _first),
         matrex_data(rows2, _columns2, _data2, _second)
