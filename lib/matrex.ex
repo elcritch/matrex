@@ -1067,10 +1067,10 @@ defmodule Matrex do
   """
   @spec inner_dot(matrex, matrex) :: matrex
   def inner_dot(
-        vector(size1, _data1, first),
-        vector(size2, _data2, second)
+        vector_data(columns1, _data1, first),
+        vector_data(columns2, _data2, second)
       )
-      when size1 == size2,
+      when columns1 == columns2,
       do: %Matrex{data: NIFs.dot_nt(first, second)}
 
   @doc """
