@@ -1068,11 +1068,10 @@ defmodule Matrex do
   @spec inner_dot(matrex, matrex) :: matrex
   def inner_dot(
         vector(size1, _data1, first),
-        vector(size2, _data2, second),
-        alpha \\ 1.0
+        vector(size2, _data2, second)
       )
       when size1 == size2,
-      do: %Matrex{data: NIFs.dot_tn(first, second, alpha)}
+      do: %Matrex{data: NIFs.dot_nt(first, second)}
 
   @doc """
   Matrix multiplication with addition of third matrix.  NIF, via `cblas_sgemm()`.
