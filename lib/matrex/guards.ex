@@ -8,6 +8,30 @@ defmodule Matrex.Guards do
             unquote(col) <= unquote(columns)
       )
 
+  defmacro vector(rows, columns, body) do
+    quote do
+      %Matrex{
+        data: <<
+          <<1, 0, 0, 0>>,
+          unquote(columns)::unsigned-integer-little-32,
+          unquote(body)::binary
+        >>
+      }
+    end
+  end
+
+  defmacro vector(rows, columns, body, data) do
+    quote do
+      %Matrex{
+        data: <<
+          <<1, 0, 0, 0>>,
+          unquote(columns)::unsigned-integer-little-32,
+          unquote(body)::binary
+        >> = unquote(data)
+      }
+    end
+  end
+
   defmacro matrex_data(rows, columns, body) do
     quote do
       %Matrex{

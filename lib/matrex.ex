@@ -1677,7 +1677,7 @@ defmodule Matrex do
 
   """
   def from_list(lst) when is_list(lst) do
-    new([lst]) |> Matrex.transpose()
+    new([lst])
   end
 
   @spec float_to_binary(element | :nan | :inf | :neg_inf) :: binary
