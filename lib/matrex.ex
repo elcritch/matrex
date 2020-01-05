@@ -1048,6 +1048,33 @@ defmodule Matrex do
       do: %Matrex{data: NIFs.dot(first, second)}
 
   @doc """
+  Matrix inner product for two "vector" matrices (e.g. rows == 1 and columns >= 1).
+
+  Number of columns of the first matrix must be equal to the number of rows of the second matrix.
+
+  Raises `ErlangError` if matrices' sizes do not match.
+
+  ## Example
+
+      iex> Matrex.new([[1, 2, 3], [4, 5, 6]]) |>
+      ...> Matrex.dot(Matrex.new([[1, 2], [3, 4], [5, 6]]))
+      #Matrex[2×2]
+      ┌                 ┐
+      │    22.0    28.0 │
+      │    49.0    64.0 │
+      └                 ┘
+
+  """
+  @spec inner_dot(matrex, matrex) :: matrex
+  def inner_dot(
+        vector(size1, _data1, first),
+        vector(size2, _data2, second),
+        alpha \\ 1.0
+      )
+      when size1 == size2,
+      do: %Matrex{data: NIFs.dot_tn(first, second, alpha)}
+
+  @doc """
   Matrix multiplication with addition of third matrix.  NIF, via `cblas_sgemm()`.
 
   Raises `ErlangError` if matrices' sizes do not match.
