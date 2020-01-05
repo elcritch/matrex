@@ -8,7 +8,7 @@ defmodule Matrex.Guards do
             unquote(col) <= unquote(columns)
       )
 
-  defmacro vector(size, body) do
+  defmacro vector_data(size, body) do
     quote do
       %Matrex{
         data: <<
@@ -20,7 +20,7 @@ defmodule Matrex.Guards do
     end
   end
 
-  defmacro vector(size, body, data) do
+  defmacro vector_data(size, body, data) do
     quote do
       %Matrex{
         data: <<
