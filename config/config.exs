@@ -8,6 +8,4 @@ case Mix.env() do
         ".c"
       ]
 
-  :test ->
-    config :excheck, :number_iterations, 200
 end
