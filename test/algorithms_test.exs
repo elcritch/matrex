@@ -178,6 +178,8 @@ defmodule AlgorithmsTest do
 
     assert result == true
 
+    # Due to the randomness in GD, these parameters will vary more than most tests
+    assert coefs |> Matrex.subtract(expected_coefs) |> Matrex.sum() < 1.0e-2
   end
 
   defp coefs_nums(c) do
