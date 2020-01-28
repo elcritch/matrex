@@ -222,4 +222,34 @@ defmodule AlgorithmsTest do
   defp coefs_nums(c) do
     [c |> Enum.map(& &1 |> elem(1))] |> Matrex.new()
   end
+
+  test "qr decompose" do
+
+    # task 1: show qr decomp of wp example
+    a = np.array(((
+        (12, -51,   4),
+        ( 6, 167, -68),
+        (-4,  24, -41),
+    )))
+
+    q, r = qr(a)
+    print('q:\n', q.round(6))
+    print('r:\n', r.round(6))
+
+    x = np.array((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+    y = np.array((1, 6, 17, 34, 57, 86, 121, 162, 209, 262, 321))
+  end
+
+# task 2: use qr decomp for polynomial regression example
+  def polyfit(x, y, n):
+      return lsqr(x[:, None]**np.arange(n + 1), y.T)
+  end
+
+  def lsqr(a, b):
+      q, r = qr(a)
+      _, n = r.shape
+      return np.linalg.solve(r[:n, :], np.dot(q.T, b)[:n])
+
+  end
+
 end
