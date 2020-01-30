@@ -12,8 +12,8 @@ defmodule Matrex.Guards do
     quote do
       %Matrex{
         data: <<
-          <<1, 0, 0, 0>>,
           unquote(size)::unsigned-integer-little-32,
+          <<1, 0, 0, 0>>,
           unquote(body)::binary
         >>
       }
@@ -24,8 +24,8 @@ defmodule Matrex.Guards do
     quote do
       %Matrex{
         data: <<
-          <<1, 0, 0, 0>>,
           unquote(size)::unsigned-integer-little-32,
+          <<1, 0, 0, 0>>,
           unquote(body)::binary
         >> = unquote(data)
       }
